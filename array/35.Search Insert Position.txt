@@ -1,0 +1,78 @@
+combination of both hashmap + binaru search
+beats 100%
+used hashmap for:
+if target is inside the nums array
+used binary search to find:
+the correct indx position which it fits.
+
+We can use only binary search if we want, adding condition if(nums[mid]==target)return mid; and remove the hashmap part
+
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+        Map <Integer,Integer> mp = new HashMap<>();
+        for(int i=0;i<nums.length;i++)
+        {
+            mp.put(nums[i],i);
+
+        }
+        if(mp.containsKey(target)) {return mp.get(target);}
+        else if(target<nums[0]){return 0;}
+        else if(target>nums[nums.length-1]) {return nums.length;}
+        else
+        {
+            
+            
+            {
+                int low=0,high=nums.length -1,mid=(low+high)/2;
+                while(low<=high)
+                {
+                    mid=(low+high)/2;
+                    if((mid!=nums.length-1)&&(nums[mid]<target)&&(target<nums[mid+1]))
+                    {
+                        return mid+1;
+                    }
+                    else if((mid!=0)&&(nums[mid-1]<target)&&(target<nums[mid]))
+                    {
+                        return mid;
+                    }
+                    else if(target>nums[mid])
+                    {
+                        low=mid+1;
+                    }
+                    else
+                    {
+                        high=mid-1;
+                    }
+                }
+            }
+        }
+
+        return -1;
+    }
+}
+
+
+
+
+
+
+
+
+
+less complex solution with only binary search
+
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+        int start = 0;
+        int end = nums.length-1;
+
+        while (start <= end) {
+            int mid = start + (end-start)/2;
+            if (nums[mid] == target) return mid;
+            else if (nums[mid] > target) end = mid-1;
+            else start = mid+1;
+        }
+
+        return start;
+    }
+}
